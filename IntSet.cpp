@@ -120,14 +120,8 @@ IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 IntSet IntSet::intersect(const IntSet& otherIntSet) const
 {
   IntSet newSet;
-  int smallestSize;
 
-  if (size() < otherIntSet.size())
-    smallestSize = size();
-  else
-    smallestSize = otherIntSet.size();
-  
-  for (int i = 0; i < smallestSize; ++i)
+  for (int i = 0; i < size(); ++i)
     if (otherIntSet.contains(data[i]))
       newSet.add(data[i]);
     
