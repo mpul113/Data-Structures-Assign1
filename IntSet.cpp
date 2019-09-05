@@ -60,36 +60,33 @@ int IntSet::size() const
 
 bool IntSet::isEmpty() const
 {
-   if (used == 0)
-     return true;
-   else
-     return false;
+   return (used == 0) ? true : false;
 }
 
 bool IntSet::contains(int anInt) const
 {
-  for (int i = 0; i < used; ++i)
-    if (anInt == data[i])
-      return true;
+   for (int i = 0; i < used; ++i)
+     if (anInt == data[i])
+       return true;
   
    return false; 
 }
 
 bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
 {
-  int count = 0;
+   int count = 0;
   
-  if (isEmpty()) //recheck to see if still gucci!
-    return true;
+   if (isEmpty())
+     return true;
   
-  for (int i = 0; i < used; ++i)
-    if (otherIntSet.contains(data[i]))
-	++count;
+   for (int i = 0; i < used; ++i)
+     if (otherIntSet.contains(data[i]))
+       ++count;
 	
-  if (count >= used)
-    return true;
+   if (count >= used)
+     return true;
 
-  return false;
+   return false;
 }
 
 void IntSet::DumpData(ostream& out) const
@@ -104,44 +101,45 @@ void IntSet::DumpData(ostream& out) const
 
 IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 {
-  assert((size() + (otherIntSet.subtract(*this)).size()) <= MAX_SIZE);
+   assert((size() + (otherIntSet.subtract(*this)).size()) <= MAX_SIZE);
 
-  IntSet newSet;
+   IntSet newSet;
 
-  for (int i = 0; i < used; ++i)
-    newSet.add(data[i]);
+   for (int i = 0; i < used; ++i)
+     newSet.add(data[i]);
 
-  for (int j = 0; j < otherIntSet.used; ++j)
-    newSet.add(otherIntSet.data[j]);
+   for (int j = 0; j < otherIntSet.used; ++j)
+     newSet.add(otherIntSet.data[j]);
   
    return newSet; 
 }
 
 IntSet IntSet::intersect(const IntSet& otherIntSet) const
 {
-  IntSet newSet;
+   IntSet newSet;
 
-  for (int i = 0; i < size(); ++i)
-    if (otherIntSet.contains(data[i]))
-      newSet.add(data[i]);
+   for (int i = 0; i < used; ++i)
+     if (otherIntSet.contains(data[i]))
+       newSet.add(data[i]);
     
    return newSet; 
 }
 
 IntSet IntSet::subtract(const IntSet& otherIntSet) const
 {
-  IntSet newSet;
+   IntSet newSet;
 
-  for (int i = 0; i < used; ++i)
-    if (!(otherIntSet.contains(data[i])))
-      newSet.add(data[i]);
+   for (int i = 0; i < used; ++i)
+     if (!(otherIntSet.contains(data[i])))
+       newSet.add(data[i]);
 
-  return newSet;
+   return newSet;
 }
 
 void IntSet::reset()
 {
-  used = 0;
+   data[MAX_SIZE] = {};  
+   used = 0;
 }
 
 bool IntSet::add(int anInt)
@@ -154,35 +152,35 @@ bool IntSet::add(int anInt)
    if (contains(anInt))
      return false;
    
-    data[used] = anInt;
-    ++used;
+   data[used] = anInt;
+   ++used;
 
-    return true; 
+   return true; 
 }
 
 bool IntSet::remove(int anInt)
 { 
-  if (contains(anInt))
-    {
+   if (contains(anInt))
+   {
       for (int i = 0; i < (used - 1); ++i)
         if (data[i] == anInt)
 	  swap(data[i], data[i + 1]);
 
       --used;
       return true;
-    }
+   }
   
    return false;
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
 {
-  if (is1.isEmpty() && is2.isEmpty())
-    return true;
-  else if (is1.size() != is2.size())
-    return false;
-  else if (is1.isSubsetOf(is2) || is2.isSubsetOf(is1))
-    return true;
-  else
-    return false;
+   if (is1.isEmpty() && is2.isEmpty())
+     return true;
+   else if (is1.size() != is2.size())
+     return false;
+   else if (is1.isSubsetOf(is2) || is2.isSubsetOf(is1))
+     return true;
+   else
+     return false;
 }
