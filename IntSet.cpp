@@ -152,6 +152,8 @@ void IntSet::reset()
 
 bool IntSet::add(int anInt)
 {
+   assert(contains(anInt) ? size() <= MAX_SIZE : size() < MAX_SIZE);
+  
    if (used == MAX_SIZE)
      return false;
 
