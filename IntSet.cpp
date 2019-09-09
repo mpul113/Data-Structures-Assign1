@@ -46,16 +46,12 @@
 #include <cassert>
 using namespace std;
 
-IntSet::IntSet()
+IntSet::IntSet() : used(0)
 {
    data[MAX_SIZE] = {};
-   used = 0;
 }
 
-int IntSet::size() const
-{
-   return used;
-}
+int IntSet::size() const { return used; }
 
 
 bool IntSet::isEmpty() const
@@ -80,11 +76,12 @@ bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
      return true;
   
    for (int i = 0; i < used; ++i)
-     if (otherIntSet.contains(data[i]))
-       ++count;
-	
-   if (count >= used)
-     return true;
+     {
+       if (otherIntSet.contains(data[i]))
+         ++count;
+       else if (count >= used)
+         return true;
+     }
 
    return false;
 }
@@ -103,10 +100,7 @@ IntSet IntSet::unionWith(const IntSet& otherIntSet) const
 {
    assert((size() + (otherIntSet.subtract(*this)).size()) <= MAX_SIZE);
 
-   IntSet newSet;
-
-   for (int i = 0; i < used; ++i)
-     newSet.add(data[i]);
+   IntSet newSet(*this);
 
    for (int j = 0; j < otherIntSet.used; ++j)
      newSet.add(otherIntSet.data[j]);
