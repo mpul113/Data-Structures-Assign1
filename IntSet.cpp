@@ -122,7 +122,12 @@ IntSet IntSet::intersect(const IntSet& otherIntSet) const
 IntSet IntSet::subtract(const IntSet& otherIntSet) const
 {
    IntSet newSet;
-
+   
+   //Rather than subtracting in the traditional way, I am
+   //building a new IntSet (newSet) object and comparing
+   //the integers in the invoking object with those of the
+   //other. Should the other object NOT contain said integer
+   //in the invoking, the integer is added to newSet.
    for (int i = 0; i < used; ++i)
      if (!(otherIntSet.contains(data[i])))
        newSet.add(data[i]);
@@ -142,7 +147,7 @@ bool IntSet::add(int anInt)
   
    if (used == MAX_SIZE)
      return false;
-
+   
    if (contains(anInt))
      return false;
    
@@ -163,8 +168,8 @@ bool IntSet::remove(int anInt)
       --used;
       return true;
    }
-  
-   return false;
+   else
+     return false;
 }
 
 bool equal(const IntSet& is1, const IntSet& is2)
