@@ -46,13 +46,9 @@
 #include <cassert>
 using namespace std;
 
-IntSet::IntSet() : used(0)
-{
-   data[MAX_SIZE] = {};
-}
+IntSet::IntSet() : used(0) {}
 
 int IntSet::size() const { return used; }
-
 
 bool IntSet::isEmpty() const
 {
@@ -79,7 +75,7 @@ bool IntSet::isSubsetOf(const IntSet& otherIntSet) const
      {
        if (otherIntSet.contains(data[i]))
          ++count;
-       else if (count >= used)
+       if (count >= used)
          return true;
      }
 
@@ -136,17 +132,13 @@ IntSet IntSet::subtract(const IntSet& otherIntSet) const
 }
 
 void IntSet::reset()
-{
-   data[MAX_SIZE] = {};  
+{ 
    used = 0;
 }
 
 bool IntSet::add(int anInt)
 {
    assert(contains(anInt) ? size() <= MAX_SIZE : size() < MAX_SIZE);
-  
-   if (used == MAX_SIZE)
-     return false;
    
    if (contains(anInt))
      return false;
@@ -178,7 +170,7 @@ bool equal(const IntSet& is1, const IntSet& is2)
      return true;
    else if (is1.size() != is2.size())
      return false;
-   else if (is1.isSubsetOf(is2) || is2.isSubsetOf(is1))
+   else if (is1.isSubsetOf(is2))
      return true;
    else
      return false;
